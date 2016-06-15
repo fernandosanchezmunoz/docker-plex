@@ -1,0 +1,57 @@
+{
+  "id": "/plex",
+  "cmd": null,
+  "cpus": 2,
+  "mem": 2048,
+  "disk": 0,
+  "instances": 1,
+  "acceptedResourceRoles": [
+    "*"
+  ],
+  "container": {
+    "type": "DOCKER",
+    "volumes": [
+      {
+        "containerPath": "/data/Video",
+        "hostPath": "/mnt/Video",
+        "mode": "RO"
+      },
+      {
+        "containerPath": "/data/Audio/music",
+        "hostPath": "/mnt/Audio/0_Music",
+        "mode": "RO"
+      },
+      {
+        "containerPath": "/config",
+        "hostPath": "/mnt/plex",
+        "mode": "RW"
+      }
+    ],
+    "docker": {
+      "image": "fernandosanchez/simpleplex",
+      "network": "HOST",
+      "privileged": false,
+      "parameters": [],
+      "forcePullImage": false
+    }
+  },
+  "healthChecks": [
+    {
+      "path": "/",
+      "protocol": "HTTP",
+      "gracePeriodSeconds": 300,
+      "intervalSeconds": 60,
+      "timeoutSeconds": 20,
+      "maxConsecutiveFailures": 3,
+      "ignoreHttp1xx": false,
+      "port": 32400
+    }
+  ],
+  "portDefinitions": [
+    {
+      "port": 10101,
+      "protocol": "tcp",
+      "labels": {}
+    }
+  ]
+}
